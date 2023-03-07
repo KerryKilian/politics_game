@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "394788898713",
+    "project_id": "politics-game-9eb21",
+    "storage_bucket": "politics-game-9eb21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394788898713:android:148bd9568f67dbd1e27508",
+        "android_client_info": {
+          "package_name": "com.kilianbrinkner.politics_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394788898713-pc1adj1cmtudq02ji8brolo99m64nbg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmjDdGwqyzaQaX3gG3e1-BvTyUC8nRw_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394788898713-pc1adj1cmtudq02ji8brolo99m64nbg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
