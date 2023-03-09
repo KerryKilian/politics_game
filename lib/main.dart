@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
             }
 
             // if snapshot does not have data, user needs to login
-            return const SignupScreen();
+            return const StartScreen();
           },
         ),
       ),

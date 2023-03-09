@@ -6,6 +6,9 @@ import "package:politics_game/utils/colors.dart";
 import "package:politics_game/utils/global_variables.dart";
 
 class MobileScreenLayout extends StatefulWidget {
+
+  final double activeSize = 36;
+  final double inactiveSize = 26;
   const MobileScreenLayout({Key? key}) : super(key: key);
 
   @override
@@ -52,6 +55,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         bottomNavigationBar: Stack(
           children: [
             Container(
+
               // this is the decoration of the container for gradient look
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -67,14 +71,18 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               height: 60,
             ),
             Container(
-              padding: EdgeInsets.only(top: 10),
+              margin: EdgeInsets.only(top: 10),
+
               child: CupertinoTabBar(
                 backgroundColor: Colors.transparent,
+                activeColor: primaryColor,
+
                 items: [
                   BottomNavigationBarItem(
                       icon: Icon(
                         Icons.home,
                         color: _page == 0 ? primaryColor : secondaryColor,
+                        size: _page == 0 ? widget.activeSize : widget.inactiveSize,
                       ),
                       label: "",
                       backgroundColor: primaryColor),
@@ -82,6 +90,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                       icon: Icon(
                         Icons.search,
                         color: _page == 1 ? primaryColor : secondaryColor,
+                        size: _page == 1 ? widget.activeSize : widget.inactiveSize,
+
                       ),
                       label: "",
                       backgroundColor: primaryColor),
@@ -89,6 +99,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                       icon: Icon(
                         Icons.add_circle,
                         color: _page == 2 ? primaryColor : secondaryColor,
+                        size: _page == 2 ? widget.activeSize : widget.inactiveSize,
+
                       ),
                       label: "",
                       backgroundColor: primaryColor),
@@ -96,6 +108,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                       icon: Icon(
                         Icons.favorite,
                         color: _page == 3 ? primaryColor : secondaryColor,
+                        size: _page == 3 ? widget.activeSize : widget.inactiveSize,
+
                       ),
                       label: "",
                       backgroundColor: primaryColor),
@@ -103,6 +117,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                       icon: Icon(
                         Icons.person,
                         color: _page == 4 ? primaryColor : secondaryColor,
+                        size: _page == 4 ? widget.activeSize : widget.inactiveSize,
+
                       ),
                       label: "",
                       backgroundColor: primaryColor),

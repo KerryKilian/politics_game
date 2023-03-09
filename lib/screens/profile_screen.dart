@@ -4,6 +4,7 @@ import 'package:politics_game/resources/auth_methods.dart';
 import 'package:politics_game/screens/profile/description_tab.dart';
 import 'package:politics_game/screens/profile/demonstrations_tab.dart';
 import 'package:politics_game/screens/profile/questions_tab.dart';
+import 'package:politics_game/screens/start_screen.dart';
 import 'package:politics_game/utils/colors.dart';
 import 'package:politics_game/utils/utils.dart';
 import 'package:politics_game/widgets/background.dart';
@@ -66,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
 
     // Check for political Orientation
-    double politicalOrientation = userData["politicalOrientation"];
+    int politicalOrientation = userData["politicalOrientation"];
     if (politicalOrientation < 15) {
       politicalOrientationOutput = Constants.politicalOrientation[0];
     } else if (politicalOrientation >= 15 && politicalOrientation < 30) {
@@ -84,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
 
     // Check for political Extremism
-    double politicalExtremism = userData["politicalExtremism"];
+    int politicalExtremism = userData["politicalExtremism"];
     if (politicalExtremism < 5) {
       politicalExtremismOutput = Constants.politicalExtremism[0];
     } else if (politicalExtremism >= 5 && politicalExtremism < 15) {
@@ -125,6 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               text: "Ausloggen",
                               onTapFunction: () {
                                 AuthMethods().signOut();
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => StartScreen()));
                               }),
                         ],
                       ),

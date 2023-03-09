@@ -102,6 +102,7 @@ class AuthMethods {
   }
 
   Future<model.User> getUserDetails() async {
+    print("getUserDetails was called now");
     User currentUser = _auth.currentUser!;
     DocumentSnapshot snap =
         await _firestore.collection("users").doc(currentUser.uid).get();

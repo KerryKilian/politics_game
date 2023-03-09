@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:politics_game/screens/login_screen.dart';
+import 'package:politics_game/screens/signup_screen.dart';
 import 'package:politics_game/utils/colors.dart';
 import 'package:politics_game/widgets/background.dart';
 import 'package:politics_game/widgets/custom_button.dart';
@@ -15,42 +17,50 @@ class _StartScreenState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     return Background(
-        child: Container(
-            margin: EdgeInsets.only(top: 30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start, children: [
-              CustomText(
+      child: Container(
+        margin: EdgeInsets.only(top: 30),
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Container(
+            margin: EdgeInsets.all(20),
+            child: CustomText(
               text: "Hast du das Zeug zum Kanzler oder zur Kanzlerin?",
               title: true,
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: EdgeInsets.all(20),
-              child: CustomText(
-                  text:
-                  "Bulin-Polit ist ein Simulationsspiel, bei dem du dich für eine Partei an die Spitze der bulinischen Politik bringen musst. Überzeuge andere Mitspieler von deiner Meinung und hole Stimmen aus dem Volk"),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: EdgeInsets.all(20),
+            child: CustomText(
+                text:
+                    "Bulin-Polit ist ein Simulationsspiel, bei dem du dich für eine Partei an die Spitze der bulinischen Politik bringen musst. Überzeuge andere Mitspieler von deiner Meinung und hole Stimmen aus dem Volk"),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
               margin: EdgeInsets.only(left: 80, right: 80),
               child: CustomButton(
-                  text: "Einloggen",
-                  onTapFunction: () {},
-            )
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 80, right: 80),
-          child: CustomButton(text: "Registrieren", onTapFunction: () {},),
-        )
-        ]),)
-    ,
+                text: "Einloggen",
+                onTapFunction: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
+              )),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 80, right: 80),
+            child: CustomButton(
+              text: "Registrieren",
+              onTapFunction: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignupScreen()));
+              },
+            ),
+          )
+        ]),
+      ),
     );
   }
 }

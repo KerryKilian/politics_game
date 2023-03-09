@@ -9,14 +9,14 @@ class User {
   final String photoUrl;
   final String bio;
   final String job;
-  final double politicalOrientation;
-  final List<int> politicalAnswers;
-  final double politicalExtremism;
-  final int level;
+  final num politicalOrientation;
+  final List politicalAnswers;
+  final num politicalExtremism;
+  final num level;
   final String partyId;
-  final List<String> demonstrations;
-  final List<String> followers;
-  final List<String> following;
+  final List demonstrations;
+  final List followers;
+  final List following;
 
   const User({
     required this.username,
@@ -43,7 +43,7 @@ class User {
         "bio": bio,
         "job": job,
         "politicalOrientation": politicalOrientation,
-        "politicalQuestions": politicalAnswers,
+        "politicalAnswers": politicalAnswers,
         "level": level,
         "politicalExtremism": politicalExtremism,
         "partyId": partyId,
@@ -53,7 +53,7 @@ class User {
       };
 
   static User fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data as Map<String, dynamic>;
+    var snapshot = snap.data() as Map<String, dynamic>;
 
     return User(
       username: snapshot["username"],

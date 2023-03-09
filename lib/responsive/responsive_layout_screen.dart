@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import "package:politics_game/providers/user_provider.dart";
 import "package:politics_game/utils/global_variables.dart";
+import "package:provider/provider.dart";
 
 class ResponsiveLayout extends StatefulWidget {
   final Widget webScreenLayout;
@@ -15,13 +17,13 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   @override
   void initState() {
     super.initState();
-    // addData();
+    addData();
   }
   
-  // addData() async {
-  //   UserProvider _userProvider = Provider.of(context, listen: false);
-  //   await _userProvider.refreshUser();
-  // }
+  addData() async {
+    UserProvider _userProvider = Provider.of(context, listen: false);
+    await _userProvider.refreshUser();
+  }
   
   @override
   Widget build(BuildContext context) {

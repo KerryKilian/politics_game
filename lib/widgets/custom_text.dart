@@ -8,6 +8,10 @@ class CustomText extends StatelessWidget {
   final Color color;
   final FontWeight fontWeight;
   final TextAlign textAlign;
+  final int maxLines;
+  final TextOverflow overflow;
+  final bool softWrap;
+
   const CustomText(
       {Key? key,
       required this.text,
@@ -15,13 +19,21 @@ class CustomText extends StatelessWidget {
       this.title = false,
       this.color = primaryColor,
       this.fontWeight = FontWeight.normal,
-      this.textAlign = TextAlign.center})
+      this.textAlign = TextAlign.left,
+      this.maxLines = 10,
+        this.overflow = TextOverflow.clip,
+        this.softWrap = true,
+      })
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
+
       this.text,
+      softWrap: this.softWrap,
+      // overflow: this.overflow,
+      maxLines: this.maxLines,
       textAlign: this.textAlign,
       style: TextStyle(
         fontWeight: fontWeight,

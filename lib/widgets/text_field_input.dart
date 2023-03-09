@@ -6,24 +6,34 @@ class TextFieldInput extends StatelessWidget {
   final String text;
   final TextInputType textInputType;
   final bool obscureText;
+  final int minLines;
   final int maxLines;
-  const TextFieldInput({Key? key, required this.textEditingController, required this.text, required this.textInputType, this.obscureText = false, this.maxLines = 1}) : super(key: key);
+  final Color labelColor;
+
+  const TextFieldInput(
+      {Key? key,
+      required this.textEditingController,
+      required this.text,
+      required this.textInputType,
+      this.obscureText = false,
+      this.minLines = 1,
+      this.maxLines = 1,
+      this.labelColor = secondaryColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(10,0,10,0),
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: secondaryColor),
+        color: primaryColor,
+        borderRadius: BorderRadius.circular(15),
       ),
-
       child: TextField(
-        style: TextStyle(color: secondaryColor),
+        style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
           labelStyle: TextStyle(
-            color: secondaryColor,
+            color: labelColor,
           ),
           border: InputBorder.none,
           labelText: this.text,
@@ -31,6 +41,7 @@ class TextFieldInput extends StatelessWidget {
         controller: textEditingController,
         keyboardType: this.textInputType,
         obscureText: this.obscureText,
+        minLines: minLines,
         maxLines: maxLines,
       ),
     );

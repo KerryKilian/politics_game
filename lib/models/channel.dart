@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:politics_game/objects/message.dart';
+import 'package:politics_game/models/message.dart';
 
 class Channel {
   final String channelId;
