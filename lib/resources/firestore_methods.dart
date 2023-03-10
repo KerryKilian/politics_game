@@ -70,4 +70,22 @@ class FirestoreMethods {
     }
     return res;
   }
+
+  Future<void> likeOrDislikeMessage(String messageId, String uid, List list, String channelId, String likesOrDislikes) async {
+    try {
+      if (list.contains(uid)) {
+        await _firestore.collection("chats").doc(channelId).collection("messages").doc(messageId).update({
+          likesOrDislikes: FieldValue.arrayRemove([uid]),
+        });
+      } else {
+        await _firestore.collection("chats").doc(channelId).collection("messages").doc(messageId).update({
+          likesOrDislikes: FieldValue.arrayUnion([uid]),
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
 }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:politics_game/models/message.dart';
+import 'package:politics_game/models/user.dart';
+import 'package:politics_game/providers/user_provider.dart';
+import 'package:politics_game/resources/firestore_methods.dart';
 import 'package:politics_game/screens/comment_screen.dart';
 import 'package:politics_game/utils/colors.dart';
 import 'package:politics_game/widgets/custom_icon_button.dart';
 import 'package:politics_game/widgets/custom_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class MessageCard extends StatefulWidget {
   final snap;
@@ -27,6 +31,8 @@ class MessageCard extends StatefulWidget {
 class _MessageCardState extends State<MessageCard> {
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
+
     return Container(
       margin: EdgeInsets.only(
           top: 10,
@@ -69,31 +75,27 @@ class _MessageCardState extends State<MessageCard> {
                     maxLines: 20,
                     softWrap: true),
               ),
+              SizedBox(
+                height: 5,
+              ),
               widget.onCommentScreen
-                  ? SizedBox(
-                      height: 0,
-                    )
-                  : InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CommentScreen(
-                                  snap: widget.snap,
-                                  uid: widget.uid,
-                                  channelId: widget.channelId,
-                                )));
-                      },
-                      child: Row(
-                        children: [
-                          Row(
+                  ? SizedBox()
+                  : Row(
+                children: [
+                   InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CommentScreen(
+                                      snap: widget.snap,
+                                      uid: widget.uid,
+                                      channelId: widget.channelId,
+                                    )));
+                          },
+                          child: Row(
                             children: [
-                              CustomIconButton(
-                                icon: Icons.comment_sharp,
-                                onTap: () {},
-                                colorOne: primaryColor,
-                                colorTwo: primaryColor,
-                                iconSize: 20,
-                                padding: 5,
-                                iconColor: tertiaryColor,
+                              Icon(
+                                Icons.comment_sharp,
+                                color: tertiaryColor,
                               ),
                               SizedBox(
                                 width: 2,
@@ -102,10 +104,70 @@ class _MessageCardState extends State<MessageCard> {
                                 text: widget.snap["comments"].toString(),
                                 color: tertiaryColor,
                               ),
+                              SizedBox(
+                                width: 10,
+                              )
                             ],
-                          )
-                        ],
-                      )),
+                          ),
+                        ),
+                  InkWell(
+                    onTap: () async {
+                      await FirestoreMethods().likeOrDislikeMessage(
+                          widget.snap["messageId"],
+                          user.uid,
+                          widget.snap["likes"],
+                          widget.channelId,
+                          "likes");
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.thumb_up,
+                          color: Colors.green,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        CustomText(
+                          text:
+                              (widget.snap["likes"] as List).length.toString(),
+                          color: Colors.green,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await FirestoreMethods().likeOrDislikeMessage(
+                          widget.snap["messageId"],
+                          user.uid,
+                          widget.snap["dislikes"],
+                          widget.channelId,
+                          "dislikes");
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.thumb_down,
+                          color: Colors.red,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        CustomText(
+                          text: (widget.snap["dislikes"] as List)
+                              .length
+                              .toString(),
+                          color: Colors.red,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ],
