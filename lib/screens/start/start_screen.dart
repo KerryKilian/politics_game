@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:politics_game/screens/login_screen.dart';
-import 'package:politics_game/screens/signup_screen.dart';
+import 'package:politics_game/screens/start/login_screen.dart';
+import 'package:politics_game/screens/start/signup_screen.dart';
 import 'package:politics_game/utils/colors.dart';
 import 'package:politics_game/widgets/background.dart';
 import 'package:politics_game/widgets/custom_button.dart';

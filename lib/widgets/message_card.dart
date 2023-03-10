@@ -3,7 +3,7 @@ import 'package:politics_game/models/message.dart';
 import 'package:politics_game/models/user.dart';
 import 'package:politics_game/providers/user_provider.dart';
 import 'package:politics_game/resources/firestore_methods.dart';
-import 'package:politics_game/screens/comment_screen.dart';
+import 'package:politics_game/screens/chat/comment_screen.dart';
 import 'package:politics_game/utils/colors.dart';
 import 'package:politics_game/widgets/custom_icon_button.dart';
 import 'package:politics_game/widgets/custom_text.dart';

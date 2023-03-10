@@ -1,8 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:politics_game/data/political_questions.dart';
 import 'package:politics_game/models/comment.dart';
+import 'package:politics_game/models/party.dart';
 import 'package:politics_game/models/user.dart';
 import 'package:politics_game/models/message.dart';
+import 'package:politics_game/resources/storage_methods.dart';
+import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -71,14 +77,25 @@ class FirestoreMethods {
     return res;
   }
 
-  Future<void> likeOrDislikeMessage(String messageId, String uid, List list, String channelId, String likesOrDislikes) async {
+  Future<void> likeOrDislikeMessage(String messageId, String uid, List list,
+      String channelId, String likesOrDislikes) async {
     try {
       if (list.contains(uid)) {
-        await _firestore.collection("chats").doc(channelId).collection("messages").doc(messageId).update({
+        await _firestore
+            .collection("chats")
+            .doc(channelId)
+            .collection("messages")
+            .doc(messageId)
+            .update({
           likesOrDislikes: FieldValue.arrayRemove([uid]),
         });
       } else {
-        await _firestore.collection("chats").doc(channelId).collection("messages").doc(messageId).update({
+        await _firestore
+            .collection("chats")
+            .doc(channelId)
+            .collection("messages")
+            .doc(messageId)
+            .update({
           likesOrDislikes: FieldValue.arrayUnion([uid]),
         });
       }
@@ -87,5 +104,33 @@ class FirestoreMethods {
     }
   }
 
+  Future<void> foundParty(String name, String bio, String shortName, String uid,
+      Uint8List file, DateTime foundingDate) async {
+    PoliticalQuestions questions = PoliticalQuestions();
+    List<int> answers = [];
+    questions.questions.forEach((element) {
+      answers.add(1); // neutral
+    });
 
+    String photoUrl =
+        await StorageMethods().uploadImageToStorage("profilePics", file, false);
+
+    String partyId = Uuid().v1();
+
+    await _firestore.collection("parties").doc(partyId).set({
+      "name": name,
+      "partyId": partyId,
+      "photoUrl": photoUrl,
+      "bio": bio,
+      "shortName": shortName,
+      "members": [uid],
+      "politicalOrientation": answers,
+      "politicalQuestions": 50,
+      "politicalExtremism": 0,
+      "demonstrations": [],
+      "level": 0,
+      "founderId": uid,
+      "foundingDate": foundingDate,
+    });
+  }
 }

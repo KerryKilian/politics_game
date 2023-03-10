@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:politics_game/screens/chat.dart';
+import 'package:politics_game/screens/chat/chat.dart';
 import 'package:politics_game/widgets/background.dart';
 
 class ChatScreen extends StatelessWidget {

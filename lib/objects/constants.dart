@@ -12,4 +12,5 @@ import 'package:flutter/material.dart';
    static List<String> partyAffiliation = ["Einfache*r Bürger*in", "Mitglied", "Ortsvorstand", "Kreisvorstand", "Abgeordneter im Landtag", "Abgeordneter im Bundestag"];
    static List<String> politicalOrientation = ["Sehr Links", "Links", "Eher Links", "Mittig", "Eher Konservativ/Kapitalistisch", "Konservativ/Kapitalistisch", "Sehr Konservativ/Kapitalistisch"];
    static List<String> politicalExtremism = ["Gemäßigt", "Teilweise extremistisch", "Gesichert extremistisch"];
+   static List<String> partyLevels = ["Kleinstpartei", "im Landesparlament vertreten", "im Bundestag vertreten", "Regierungspartei"];
  }

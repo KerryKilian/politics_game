@@ -6,9 +6,9 @@ import 'package:politics_game/providers/user_provider.dart';
 import 'package:politics_game/responsive/mobile_screen_layout.dart';
 import 'package:politics_game/responsive/responsive_layout_screen.dart';
 import 'package:politics_game/responsive/web_screen_layout.dart';
-import 'package:politics_game/screens/login_screen.dart';
-import 'package:politics_game/screens/signup_screen.dart';
-import 'package:politics_game/screens/start_screen.dart';
+import 'package:politics_game/screens/start/login_screen.dart';
+import 'package:politics_game/screens/start/signup_screen.dart';
+import 'package:politics_game/screens/start/start_screen.dart';
 import 'package:politics_game/utils/colors.dart';
 import 'package:provider/provider.dart';
 

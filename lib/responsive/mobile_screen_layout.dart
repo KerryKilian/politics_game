@@ -16,13 +16,13 @@ class MobileScreenLayout extends StatefulWidget {
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-  int _page = 0;
+  int _page = 1;
   late PageController pageController;
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController();
+    pageController = PageController(initialPage: 1);
   }
 
   @override
@@ -80,7 +80,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                 items: [
                   BottomNavigationBarItem(
                       icon: Icon(
-                        Icons.home,
+                        Icons.question_answer,
                         color: _page == 0 ? primaryColor : secondaryColor,
                         size: _page == 0 ? widget.activeSize : widget.inactiveSize,
                       ),
@@ -88,7 +88,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                       backgroundColor: primaryColor),
                   BottomNavigationBarItem(
                       icon: Icon(
-                        Icons.search,
+                        Icons.group,
                         color: _page == 1 ? primaryColor : secondaryColor,
                         size: _page == 1 ? widget.activeSize : widget.inactiveSize,
 

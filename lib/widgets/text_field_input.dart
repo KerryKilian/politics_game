@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:politics_game/utils/colors.dart';
 
 class TextFieldInput extends StatelessWidget {
@@ -9,6 +10,7 @@ class TextFieldInput extends StatelessWidget {
   final int minLines;
   final int maxLines;
   final Color labelColor;
+  final int? maxLength;
 
   const TextFieldInput(
       {Key? key,
@@ -18,7 +20,9 @@ class TextFieldInput extends StatelessWidget {
       this.obscureText = false,
       this.minLines = 1,
       this.maxLines = 1,
-      this.labelColor = secondaryColor})
+      this.labelColor = secondaryColor,
+      this.maxLength = null,
+      })
       : super(key: key);
 
   @override
@@ -43,6 +47,9 @@ class TextFieldInput extends StatelessWidget {
         obscureText: this.obscureText,
         minLines: minLines,
         maxLines: maxLines,
+        maxLength: maxLength,
+        maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+
       ),
     );
   }
