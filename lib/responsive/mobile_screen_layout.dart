@@ -88,7 +88,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                       backgroundColor: primaryColor),
                   BottomNavigationBarItem(
                       icon: Icon(
-                        Icons.group,
+                        Icons.groups_2,
                         color: _page == 1 ? primaryColor : secondaryColor,
                         size: _page == 1 ? widget.activeSize : widget.inactiveSize,
 

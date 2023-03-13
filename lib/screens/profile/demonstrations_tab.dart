@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:politics_game/data/demonstrations.dart';
 import 'package:politics_game/objects/demonstration.dart';
-import 'package:politics_game/widgets/profile_demonstration.dart';
+import 'package:politics_game/screens/profile/profile_demonstration.dart';
 
 class DemonstrationsTab extends StatefulWidget {
   final userData;

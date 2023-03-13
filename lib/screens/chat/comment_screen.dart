@@ -8,7 +8,7 @@ import 'package:politics_game/utils/colors.dart';
 import 'package:politics_game/widgets/background.dart';
 import 'package:politics_game/widgets/custom_icon_button.dart';
 import 'package:politics_game/widgets/custom_text.dart';
-import 'package:politics_game/widgets/message_card.dart';
+import 'package:politics_game/screens/chat/message_card.dart';
 import 'package:politics_game/widgets/text_field_input.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';

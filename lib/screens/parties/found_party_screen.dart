@@ -21,6 +21,7 @@ class FoundPartyScreen extends StatefulWidget {
 
 class _FoundPartyScreenState extends State<FoundPartyScreen> {
   TextEditingController _nameEditingController = TextEditingController();
+  TextEditingController _sloganEditingController = TextEditingController();
   TextEditingController _shortNameEditingController = TextEditingController();
   TextEditingController _bioEditingController = TextEditingController();
   Uint8List? _image;
@@ -84,6 +85,15 @@ class _FoundPartyScreenState extends State<FoundPartyScreen> {
                           margin: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: TextFieldInput(
+                              textEditingController:
+                              _sloganEditingController,
+                              text: "Prägnanter Spruch",
+                              maxLength: 40,
+                              textInputType: TextInputType.text)),
+                      Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: TextFieldInput(
                             textEditingController: _bioEditingController,
                             text: "Beschreibung",
                             textInputType: TextInputType.multiline,
@@ -124,6 +134,7 @@ class _FoundPartyScreenState extends State<FoundPartyScreen> {
                               });
                               await FirestoreMethods().foundParty(
                                   _nameEditingController.text,
+                                  _sloganEditingController.text,
                                   _bioEditingController.text,
                                   _shortNameEditingController.text,
                                   user.uid,

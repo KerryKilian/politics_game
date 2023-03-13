@@ -10,6 +10,7 @@ class Party {
   final String name;
   final String partyId;
   final String photoUrl;
+  final String slogan;
   final String bio;
   final String shortName;
   final List<String> members;
@@ -25,6 +26,7 @@ class Party {
     required this.name,
     required this.partyId,
     required this.photoUrl,
+    required this.slogan,
     required this.bio,
     required this.shortName,
     required this.members,
@@ -41,6 +43,7 @@ class Party {
         "name": name,
         "partyId": partyId,
         "photoUrl": photoUrl,
+        "slogan": slogan,
         "bio": bio,
         "shortName": shortName,
         "members": members,
@@ -60,6 +63,7 @@ class Party {
       name: snapshot["name"],
       partyId: snapshot["partyId"],
       photoUrl: snapshot["photoUrl"],
+      slogan: snapshot["slogan"],
       bio: snapshot["bio"],
       shortName: snapshot["shortName"],
       members: snapshot["members"],

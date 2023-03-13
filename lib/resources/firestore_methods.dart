@@ -13,8 +13,8 @@ import 'package:uuid/uuid.dart';
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> changeBio(String bio, String uid) async {
-    await _firestore.collection("users").doc(uid).update({
+  Future<void> changeBio(String bio, String uid, String userOrParty) async {
+    await _firestore.collection(userOrParty).doc(uid).update({
       "bio": bio,
     }).onError((e, _) => print("Error writing document: $e"));
   }
@@ -104,7 +104,7 @@ class FirestoreMethods {
     }
   }
 
-  Future<void> foundParty(String name, String bio, String shortName, String uid,
+  Future<void> foundParty(String name, String slogan, String bio, String shortName, String uid,
       Uint8List file, DateTime foundingDate) async {
     PoliticalQuestions questions = PoliticalQuestions();
     List<int> answers = [];
@@ -121,6 +121,7 @@ class FirestoreMethods {
       "name": name,
       "partyId": partyId,
       "photoUrl": photoUrl,
+      "slogan": slogan,
       "bio": bio,
       "shortName": shortName,
       "members": [uid],

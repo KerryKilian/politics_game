@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:politics_game/data/political_questions.dart';
 import 'package:politics_game/objects/political_question.dart';
-import 'package:politics_game/widgets/profile_question.dart';
+import 'package:politics_game/screens/profile/profile_question.dart';
 
 class QuestionsTab extends StatefulWidget {
   const QuestionsTab({Key? key}) : super(key: key);

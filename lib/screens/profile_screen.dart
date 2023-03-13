@@ -51,10 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen>
           .doc(widget.uid)
           .get();
 
-      var postSnap = await FirebaseFirestore.instance
-          .collection("posts")
-          .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .get();
 
       userData = userSnap.data()!;
       followers = userSnap.data()!["followers"].length;
@@ -107,131 +103,130 @@ class _ProfileScreenState extends State<ProfileScreen>
               child: Background(
                 child: Container(
                   margin: EdgeInsets.all(20),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            CustomText(
-                              text: "Mein Profil",
-                              title: true,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            CustomButton(
-                                text: "Ausloggen",
-                                onTapFunction: () {
-                                  AuthMethods().signOut();
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => StartScreen()));
-                                }),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Column(
-                              children: [
-                                CircleAvatar(
-                                  radius: 45,
-                                  backgroundImage: NetworkImage(
-                                      "https://images.unsplash.com/photo-1661956601031-4cf09efadfce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2376&q=80"),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.network(
-                                    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Sozialdemokratische_Partei_Deutschlands%2C_Logo_um_2000.svg/1000px-Sozialdemokratische_Partei_Deutschlands%2C_Logo_um_2000.svg.png",
-                                    height: 90.0,
-                                    width: 90.0,
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomText(text: userData["username"]),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                CustomText(text: "Partei"),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                CustomText(
-                                    text: Constants
-                                        .partyAffiliation[userData["level"]]),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                CustomText(text: "Hat $followers Anhänger"),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                CustomText(text: "Folgt $followers Personen"),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                CustomText(
-                                    text: "Ausrichtung: " +
-                                        politicalOrientationOutput),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                CustomText(text: politicalExtremismOutput),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TabBar(
-                          controller: _tabController,
-                          tabs: [
-                            Tab(
-                              child: Icon(Icons.account_box),
-                            ),
-                            Tab(
-                              child: Icon(Icons.question_answer),
-                            ),
-                            Tab(
-                              child: Icon(Icons.flash_on),
-                            ),
-                            Tab(child: Icon(Icons.question_mark)),
-                          ],
-                        ),
-                        Expanded(
-                          child: Navigator(
-                            key: _navKey,
-                            onGenerateRoute: (_) => MaterialPageRoute(
-                              builder: (_) => TabBarView(
-                                controller: _tabController,
-                                children: [
-                                  DescriptionTab(
-                                    userData: userData,
-                                  ),
-                                  CustomText(text: "text"),
-                                  DemonstrationsTab(
-                                    userData: userData,
-                                  ),
-                                  QuestionsTab(),
-                                ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          CustomText(
+                            text: "Mein Profil",
+                            title: true,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          CustomButton(
+                              text: "Ausloggen",
+                              onTapFunction: () {
+                                AuthMethods().signOut();
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => StartScreen()));
+                              }),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 45,
+                                backgroundImage: NetworkImage(
+                                    "https://images.unsplash.com/photo-1661956601031-4cf09efadfce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2376&q=80"),
                               ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.network(
+                                  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Sozialdemokratische_Partei_Deutschlands%2C_Logo_um_2000.svg/1000px-Sozialdemokratische_Partei_Deutschlands%2C_Logo_um_2000.svg.png",
+                                  height: 90.0,
+                                  width: 90.0,
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(text: userData["username"]),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CustomText(text: "Partei"),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CustomText(
+                                  text: Constants
+                                      .partyAffiliation[userData["level"]]),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CustomText(text: "Hat $followers Anhänger"),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CustomText(text: "Folgt $followers Personen"),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CustomText(
+                                  text: "Ausrichtung: " +
+                                      politicalOrientationOutput),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CustomText(text: politicalExtremismOutput),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TabBar(
+                        controller: _tabController,
+                        tabs: [
+                          Tab(
+                            child: Icon(Icons.account_box),
+                          ),
+                          Tab(
+                            child: Icon(Icons.question_answer),
+                          ),
+                          Tab(
+                            child: Icon(Icons.flash_on),
+                          ),
+                          Tab(child: Icon(Icons.question_mark)),
+                        ],
+                      ),
+                      Expanded(
+                        child: Navigator(
+                          key: _navKey,
+                          onGenerateRoute: (_) => MaterialPageRoute(
+                            builder: (_) => TabBarView(
+                              controller: _tabController,
+                              children: [
+                                DescriptionTab(
+                                  snap: userData,
+                                  party: false,
+                                ),
+                                CustomText(text: "text"),
+                                DemonstrationsTab(
+                                  userData: userData,
+                                ),
+                                QuestionsTab(),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
