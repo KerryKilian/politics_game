@@ -1,16 +1,8 @@
 # politics_game
 
-A politics game
+I am working on a politics game where you can write your opinion to others, where you can join or
+create political parties and where you can take more and more political influence until you govern
+Germany ingame. This app is not ready yet.
 
-## Getting Started
+The app can be installed from here: https://drive.google.com/file/d/1zrnH8A2stkwjsiPi3yEJBU1WgKa9UdPA/view?usp=sharing
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
