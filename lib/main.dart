@@ -16,12 +16,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
+      // I AM NOT SHOWING MY CREDENTIALS HERE. THE APP WONT WORK WITHOUT THESE CREDENTIALS!!!
         options: const FirebaseOptions(
-            apiKey: "AIzaSyBENpsk7ji0llz_QWA8XFl6vYzaJTxc9mQ",
-            appId: "1:394788898713:web:c8fd2e8647a21bace27508",
-            messagingSenderId: "394788898713",
-            projectId: "politics-game-9eb21",
-            storageBucket: "politics-game-9eb21.appspot.com"));
+            apiKey: "API_KEY",
+            appId: "APP_ID",
+            messagingSenderId: "MESSAGEING_SENDER_ID",
+            projectId: "PROJEXT_ID",
+            storageBucket: "STORAGE_BUCKET"));
   } else {
     await Firebase.initializeApp();
   }
