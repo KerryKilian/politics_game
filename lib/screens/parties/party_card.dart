@@ -12,8 +12,6 @@ class PartyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     int memberCount = (snap["members"] as List).length;
 
-    print("******************************************");
-    print(snap["photoUrl"]);
     return Container(
       child: InkWell(
         onTap: () {
@@ -23,7 +21,7 @@ class PartyCard extends StatelessWidget {
           children: [
             Container(
               width: 100,
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.all(10),
               child: AspectRatio(
                 aspectRatio: 1,
                 child: ClipRRect(

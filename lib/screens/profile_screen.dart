@@ -1,6 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:politics_game/objects/constants.dart';
 import 'package:politics_game/resources/auth_methods.dart';
+import 'package:politics_game/resources/firestore_methods.dart';
+import 'package:politics_game/resources/storage_methods.dart';
 import 'package:politics_game/screens/profile/description_tab.dart';
 import 'package:politics_game/screens/profile/demonstrations_tab.dart';
 import 'package:politics_game/screens/profile/questions_tab.dart';
@@ -9,9 +13,11 @@ import 'package:politics_game/utils/colors.dart';
 import 'package:politics_game/utils/utils.dart';
 import 'package:politics_game/widgets/background.dart';
 import 'package:politics_game/widgets/custom_button.dart';
+import 'package:politics_game/widgets/custom_icon_button.dart';
 import 'package:politics_game/widgets/custom_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 
 final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
@@ -34,11 +40,28 @@ class _ProfileScreenState extends State<ProfileScreen>
   String politicalExtremismOutput = "Gemäßigt";
   int following = 0;
   int followers = 0;
+  String userPhoto = "";
+  Uint8List? _image;
 
   @override
   void initState() {
     super.initState();
     getData();
+  }
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    // upload image to storage
+    String photoUrl = await StorageMethods()
+        .uploadImageToStorage("profilePics", im, false);
+    FirestoreMethods().updateProfile("photoUrl", photoUrl, widget.uid, true);
+    var userSnap = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.uid)
+        .get();
+    setState(() {
+      userData = userSnap.data()!;
+    });
   }
 
   void getData() async {
@@ -55,6 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       userData = userSnap.data()!;
       followers = userSnap.data()!["followers"].length;
       following = userSnap.data()!["following"].length;
+      userPhoto = userData["photoUrl"];
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
@@ -115,12 +139,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                           SizedBox(
                             width: 10,
                           ),
-                          CustomButton(
-                              text: "Ausloggen",
-                              onTapFunction: () {
-                                AuthMethods().signOut();
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => StartScreen()));
-                              }),
+                          CustomIconButton(icon: Icons.logout, onTap: () {
+                            AuthMethods().signOut();
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => StartScreen()));
+                          }),
+
                         ],
                       ),
                       SizedBox(
@@ -130,10 +153,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                         children: [
                           Column(
                             children: [
-                              CircleAvatar(
-                                radius: 45,
-                                backgroundImage: NetworkImage(
-                                    "https://images.unsplash.com/photo-1661956601031-4cf09efadfce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2376&q=80"),
+                              InkWell(
+                                onTap: () {
+                                  selectImage();
+                                },
+                                child: CircleAvatar(
+                                  radius: 45,
+                                  backgroundImage: NetworkImage(
+                                      userData["photoUrl"]),
+                                ),
                               ),
                               SizedBox(
                                 height: 10,

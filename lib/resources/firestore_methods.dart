@@ -18,6 +18,12 @@ class FirestoreMethods {
       "bio": bio,
     }).onError((e, _) => print("Error writing document: $e"));
   }
+  
+  Future<void> updateProfile(String key, String value, String id, bool user) async {
+    await _firestore.collection(user ? "users" : "parties").doc(id).update({
+      key: value,
+    }).onError((error, stackTrace) => print("Error writing document: $error"));
+  }
 
   Future<String> sendMessageToGlobalChat(Message newMessage) async {
     String res = "Ein Fehler ist aufgetreten";
@@ -30,6 +36,7 @@ class FirestoreMethods {
           .set({
         "fromUId": newMessage.fromUId,
         "fromUsername": newMessage.fromUsername,
+        "fromPartyId": newMessage.fromPartyId,
         "photoUrl": newMessage.photoUrl,
         "to": newMessage.to,
         "text": newMessage.text,
@@ -38,6 +45,7 @@ class FirestoreMethods {
         "comments": newMessage.comments,
         "dislikes": newMessage.dislikes,
         "messageId": newMessage.messageId,
+        "messageAsParty": newMessage.messageAsParty,
       });
       res = "success";
     } catch (err) {
@@ -105,7 +113,7 @@ class FirestoreMethods {
   }
 
   Future<void> foundParty(String name, String slogan, String bio, String shortName, String uid,
-      Uint8List file, DateTime foundingDate) async {
+      Uint8List file, DateTime foundingDate, String color) async {
     PoliticalQuestions questions = PoliticalQuestions();
     List<int> answers = [];
     questions.questions.forEach((element) {
@@ -125,13 +133,17 @@ class FirestoreMethods {
       "bio": bio,
       "shortName": shortName,
       "members": [uid],
-      "politicalOrientation": answers,
-      "politicalQuestions": 50,
+      "politicalAnswers": answers,
+      "politicalOrientation": 50,
       "politicalExtremism": 0,
       "demonstrations": [],
       "level": 0,
       "founderId": uid,
       "foundingDate": foundingDate,
+      "color": color,
     });
+    // Update partyid in user data
+    await updateProfile("partyId", partyId, uid, true);
+
   }
 }

@@ -9,10 +9,12 @@ import 'package:politics_game/utils/colors.dart';
 import 'package:politics_game/utils/utils.dart';
 import 'package:politics_game/widgets/background.dart';
 import 'package:politics_game/widgets/custom_button.dart';
+import 'package:politics_game/widgets/custom_icon_button.dart';
 import 'package:politics_game/widgets/custom_text.dart';
 import 'package:politics_game/widgets/text_field_input.dart';
 import 'package:image_picker/image_picker.dart';
 import "package:provider/provider.dart";
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class FoundPartyScreen extends StatefulWidget {
   @override
@@ -26,6 +28,7 @@ class _FoundPartyScreenState extends State<FoundPartyScreen> {
   TextEditingController _bioEditingController = TextEditingController();
   Uint8List? _image;
   bool _isLoading = false;
+  Color myColor = Colors.deepOrangeAccent;
 
   @override
   void dispose() {
@@ -58,9 +61,23 @@ class _FoundPartyScreenState extends State<FoundPartyScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      CustomText(
-                        text: "Eigene Partei gründen",
-                        title: true,
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          children: [
+                            CustomIconButton(icon: Icons.arrow_back, onTap: () {
+                              Navigator.of(context).pop();
+                            }),
+                            SizedBox(width: 10,),
+                            Expanded(
+                              child: CustomText(
+                                text: "Eigene Partei gründen",
+                                title: true,
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 10,
@@ -85,8 +102,7 @@ class _FoundPartyScreenState extends State<FoundPartyScreen> {
                           margin: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: TextFieldInput(
-                              textEditingController:
-                              _sloganEditingController,
+                              textEditingController: _sloganEditingController,
                               text: "Prägnanter Spruch",
                               maxLength: 40,
                               textInputType: TextInputType.text)),
@@ -125,6 +141,54 @@ class _FoundPartyScreenState extends State<FoundPartyScreen> {
                         ),
                       ),
                       Container(
+                        margin: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomIconButton(
+                                icon: Icons.square,
+                                colorOne: myColor,
+                                colorTwo: myColor,
+                                iconColor: myColor,
+                                onTap: () {}),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CustomButton(
+                                text: "Farbe wählen",
+                                onTapFunction: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Wähle eine Parteifarbe'),
+                                          content: SingleChildScrollView(
+                                            child: ColorPicker(
+                                              pickerColor:
+                                                  myColor, //default color
+                                              onColorChanged: (Color color) {
+                                                //on color picked
+                                                setState(() {
+                                                  myColor = color;
+                                                  print(myColor.value.toRadixString(16).substring(2));
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            CustomButton(
+                                                text: "Fertig",
+                                                onTapFunction: () {
+                                                  Navigator.of(context).pop();
+                                                })
+                                          ],
+                                        );
+                                      });
+                                })
+                          ],
+                        ),
+                      ),
+                      Container(
                         margin: EdgeInsets.all(20),
                         child: CustomButton(
                             text: "Bestätigen",
@@ -139,7 +203,9 @@ class _FoundPartyScreenState extends State<FoundPartyScreen> {
                                   _shortNameEditingController.text,
                                   user.uid,
                                   _image!,
-                                  DateTime.now());
+                                  DateTime.now(),
+                                  myColor.value.toRadixString(16).substring(2));
+
                               setState(() {
                                 _isLoading = false;
                               });

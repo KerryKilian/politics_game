@@ -16,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chat extends StatefulWidget {
   final String channelId;
+
   const Chat({Key? key, required this.channelId}) : super(key: key);
 
   @override
@@ -24,6 +25,7 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   TextEditingController _textEditingController = TextEditingController();
+  bool messageAsParty = false;
 
   @override
   void dispose() {
@@ -72,8 +74,10 @@ class _ChatState extends State<Chat> {
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) => MessageCard(
-
-                      snap: snapshot.data!.docs[index].data(), uid: user.uid, channelId: widget.channelId,),
+                    snap: snapshot.data!.docs[index].data(),
+                    uid: user.uid,
+                    channelId: widget.channelId,
+                  ),
                   reverse: true,
                 );
               },
@@ -93,11 +97,20 @@ class _ChatState extends State<Chat> {
                           Expanded(
                               child: TextFieldInput(
                             textEditingController: _textEditingController,
-                            text: "Nachricht an alle",
+                            text: messageAsParty ? "Nachricht als Partei" : "Nachricht als 'ich'",
                             textInputType: TextInputType.multiline,
                             minLines: 1,
                             maxLines: 5,
                           )),
+                          Checkbox(
+                            checkColor: Colors.white,
+                            value: messageAsParty,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                messageAsParty = !messageAsParty;
+                              });
+                            },
+                          ),
                           Container(
                               margin: EdgeInsets.all(10),
                               child: CustomIconButton(
@@ -107,6 +120,7 @@ class _ChatState extends State<Chat> {
                                       .sendMessageToGlobalChat(Message(
                                     fromUId: user!.uid,
                                     fromUsername: user.username,
+                                    fromPartyId: user.partyId,
                                     to: "global",
                                     text: _textEditingController.text,
                                     channelId: "global",
@@ -116,6 +130,7 @@ class _ChatState extends State<Chat> {
                                     comments: 0,
                                     likes: [],
                                     dislikes: [],
+                                    messageAsParty: messageAsParty,
                                   ));
                                   _textEditingController.text = "";
                                 },

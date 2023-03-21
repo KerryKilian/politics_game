@@ -3,10 +3,14 @@ import 'package:politics_game/utils/colors.dart';
 
 class Background extends StatelessWidget {
   final Widget child;
-  const Background({Key? key, required this.child}) : super(key: key);
+  final Color colorOne;
+  final Color colorTwo;
+  const Background({Key? key, required this.child, this.colorOne = secondaryColor, this.colorTwo = tertiaryColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    colorOne == null ? secondaryColor : colorOne;
     return Scaffold(
       body: Container(
           width: double.maxFinite,
@@ -15,7 +19,7 @@ class Background extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [secondaryColor, tertiaryColor],
+              colors: [colorOne, colorTwo],
             ),
           ),
           child: this.child),

@@ -21,6 +21,7 @@ class Party {
   final int level;
   final String founderId;
   final DateTime foundingDate;
+  final String color;
 
   const Party({
     required this.name,
@@ -37,6 +38,7 @@ class Party {
     required this.level,
     required this.founderId,
     required this.foundingDate,
+    required this.color,
   });
 
   Map<String, dynamic> toJson() => {
@@ -54,6 +56,7 @@ class Party {
         "level": level,
         "founderId": founderId,
         "foundingDate": foundingDate,
+        "color": color,
       };
 
   static Party fromSnap(DocumentSnapshot snap) {
@@ -74,6 +77,7 @@ class Party {
       level: snapshot["level"],
       founderId: snapshot["founderId"],
       foundingDate: snapshot["foundingDate"],
+      color: snapshot["color"],
     );
   }
 }

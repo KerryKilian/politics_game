@@ -36,15 +36,18 @@ class _DescriptionTabState extends State<DescriptionTab> {
         _isEditingBio == false ? Column(
           children: [
 
-            CustomButton(
-                text: "Beschreibung ändern",
-                onTapFunction: () {
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: CustomButton(
+                  text: "Beschreibung ändern",
+                  onTapFunction: () {
 
-                  setState(() {
-                    _isEditingBio = true;
-                  });
-                }),
-            SizedBox(height: 5,),
+                    setState(() {
+                      _isEditingBio = true;
+                    });
+                  }),
+            ),
+            SizedBox(height: 10,),
             CustomText(textAlign: TextAlign.left, text: widget.snap["bio"])
 
           ],
