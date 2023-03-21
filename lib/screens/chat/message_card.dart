@@ -5,6 +5,7 @@ import 'package:politics_game/providers/user_provider.dart';
 import 'package:politics_game/resources/firestore_methods.dart';
 import 'package:politics_game/screens/chat/comment_screen.dart';
 import 'package:politics_game/utils/colors.dart';
+import 'package:politics_game/utils/utils.dart';
 import 'package:politics_game/widgets/custom_icon_button.dart';
 import 'package:politics_game/widgets/custom_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,60 +34,55 @@ class _MessageCardState extends State<MessageCard> {
   String? partyPhotoUrl = null;
   Color backgroundColor = primaryColor;
   String? userPhotoUrl = null;
+  Color? partyColor = null;
 
   @override
   void initState() {
     super.initState();
-    getPartyPhotoUrl();
-    print(widget.snap["messageAsParty"]);
-    if (widget.snap["messageAsParty"] == true) {
-      getPartyColor();
+    print("MESSAGE CARD");
+
+    getData();
+  }
+
+  void getData() async {
+    try {
+      var partySnap = await FirebaseFirestore.instance
+          .collection("parties")
+          .doc(widget.snap["fromPartyId"])
+          .get();
+      var userSnap = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.snap["fromUId"])
+          .get();
+
+      var partyData = partySnap.data()!;
+      var userData = userSnap.data()!;
+
+      partyPhotoUrl = partyData["photoUrl"];
+      partyColor = Color(int.parse('FF${partyData["color"]}', radix: 16));
+      userPhotoUrl = userData["photoUrl"];
+
+      print("MESSAGE CARD");
+      print(userPhotoUrl);
+      // print("MESSAGE CARD PRINTING");
+      // print(partyPhotoUrlVar);
+      // print(partyColorVar);
+      // print(userPhotoUrlVar);
+
+      // setState(() {
+      //   // partyPhotoUrl = partyPhotoUrlVar;
+      //   // partyColor = partyColorVar;
+      //   // userPhotoUrl = userPhotoUrlVar;
+      // });
+      setState(() {
+
+      });
+    } catch (e) {
+      // showSnackBar(e.toString(), context);
+      print(e.toString());
     }
-    getUserPhoto();
   }
 
-  void getUserPhoto() async {
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(widget.snap["fromUId"])
-        .get()
-        .then((DocumentSnapshot doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      setState(() {
-        userPhotoUrl = data["photoUrl"];
-      });
-    });
-  }
-
-  void getPartyColor() async {
-    FirebaseFirestore.instance
-        .collection("parties")
-        .doc(widget.snap["fromPartyId"])
-        .get()
-        .then((DocumentSnapshot doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      setState(() {
-        backgroundColor = TinyColor.fromColor(data["color"]).spin(50).color;
-      });
-    });
-  }
-
-  // Get photoUrl from Party in that the user is in
-  void getPartyPhotoUrl() async {
-    FirebaseFirestore.instance
-        .collection("parties")
-        .doc(widget.snap["fromPartyId"])
-        .get()
-        .then(
-      (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        setState(() {
-          partyPhotoUrl = data["photoUrl"];
-        });
-      },
-      onError: (e) => print("Error getting document: $e"),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +114,9 @@ class _MessageCardState extends State<MessageCard> {
                       backgroundImage: NetworkImage(userPhotoUrl!),
                     )
                   : CircularProgressIndicator(),
+              // CircleAvatar(
+              //   backgroundImage: NetworkImage(widget.snap["photoUrl"]),
+              // ),
               SizedBox(
                 height: 5,
               ),
