@@ -20,7 +20,7 @@ class FirestoreMethods {
   }
   
   Future<void> updateProfile(String key, String value, String id, bool user) async {
-    await _firestore.collection(user ? "users" : "parties").doc(id).update({
+    await _firestore.collection(user == true ? "users" : "parties").doc(id).update({
       key: value,
     }).onError((error, stackTrace) => print("Error writing document: $error"));
   }
@@ -121,7 +121,7 @@ class FirestoreMethods {
     });
 
     String photoUrl =
-        await StorageMethods().uploadImageToStorage("profilePics", file, false);
+        await StorageMethods().uploadImageToStorage("partyImages", file, false);
 
     String partyId = Uuid().v1();
 

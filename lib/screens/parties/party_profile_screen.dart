@@ -33,10 +33,15 @@ class _PartyProfileScreenState extends State<PartyProfileScreen>
       TabController(length: 4, vsync: this);
   String politicalOrientationOutput = "Mittig";
   String politicalExtremismOutput = "Gemäßigt";
+  Color textColor = primaryColor;
 
   @override
   void initState() {
     super.initState();
+    Color backgroundColor = Color(int.parse('FF${widget.snap["color"]}', radix: 16));
+    if (TinyColor.fromColor(backgroundColor).isDark()) {
+      textColor = Colors.black;
+    }
     getData();
   }
 

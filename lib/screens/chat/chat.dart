@@ -49,6 +49,7 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
     // User? user = FirebaseAuth.instance.currentUser;
+    // print(user.partyId);
 
     return Scaffold(
       body: SafeArea(

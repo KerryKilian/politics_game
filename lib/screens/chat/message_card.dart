@@ -44,45 +44,42 @@ class _MessageCardState extends State<MessageCard> {
     getData();
   }
 
+  /**
+   * gets user and party information from the sending person
+   */
   void getData() async {
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.snap["fromUId"])
+          .get();
+      var userData = await userSnap.data();
+      userPhotoUrl = userData!["photoUrl"];
+    } catch (e) {
+      print(e.toString());
+    }
     try {
       var partySnap = await FirebaseFirestore.instance
           .collection("parties")
           .doc(widget.snap["fromPartyId"])
           .get();
-      var userSnap = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(widget.snap["fromUId"])
-          .get();
 
-      var partyData = partySnap.data()!;
-      var userData = userSnap.data()!;
+      var partyData = await partySnap.data();
 
-      partyPhotoUrl = partyData["photoUrl"];
+      partyPhotoUrl = partyData!["photoUrl"];
       partyColor = Color(int.parse('FF${partyData["color"]}', radix: 16));
-      userPhotoUrl = userData["photoUrl"];
+      partyColor = TinyColor.fromColor(partyColor!).lighten(40).toColor();
+      if (TinyColor.fromColor(partyColor!).isDark()) {
+        partyColor = TinyColor.fromColor(partyColor!).lighten(40).toColor();
+      }
 
-      print("MESSAGE CARD");
-      print(userPhotoUrl);
-      // print("MESSAGE CARD PRINTING");
-      // print(partyPhotoUrlVar);
-      // print(partyColorVar);
-      // print(userPhotoUrlVar);
 
-      // setState(() {
-      //   // partyPhotoUrl = partyPhotoUrlVar;
-      //   // partyColor = partyColorVar;
-      //   // userPhotoUrl = userPhotoUrlVar;
-      // });
-      setState(() {
-
-      });
     } catch (e) {
-      // showSnackBar(e.toString(), context);
       print(e.toString());
     }
-  }
+    setState(() {});
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +100,12 @@ class _MessageCardState extends State<MessageCard> {
                   widget.uid == widget.snap["fromUId"] ? 10 : 0),
               bottomRight: Radius.circular(
                   widget.uid == widget.snap["fromUId"] ? 0 : 10)),
-          color: widget.onCommentScreen ? Colors.blueGrey : backgroundColor),
+          gradient: LinearGradient(colors: [
+            partyColor != null ? TinyColor.fromColor(partyColor!).spin(50).toColor() : primaryColor,
+            partyColor != null ? partyColor! : primaryColor
+          ], begin: Alignment.centerRight
+          , end: Alignment.centerLeft)),
+      // color: widget.onCommentScreen ? Colors.blueGrey : partyColor),
       child: Row(
         children: [
           Column(
@@ -125,14 +127,16 @@ class _MessageCardState extends State<MessageCard> {
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: partyPhotoUrl != null
-                        ? Image.network(
-                            partyPhotoUrl!,
-                            fit: BoxFit.cover,
-                          )
-                        : CircularProgressIndicator(),
-                  ),
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: partyPhotoUrl != null
+                          ? Image.network(
+                              partyPhotoUrl!,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              "assets/images/grau_kreuz.png",
+                              fit: BoxFit.cover,
+                            )),
                 ),
               )
             ],
@@ -149,6 +153,7 @@ class _MessageCardState extends State<MessageCard> {
                   textAlign: TextAlign.left,
                   text: widget.snap["fromUsername"],
                   color: secondaryColor,
+                  fontSize: 14,
                   overflow: TextOverflow.ellipsis,
                 ),
                 InkWell(
@@ -164,6 +169,7 @@ class _MessageCardState extends State<MessageCard> {
                       textAlign: TextAlign.left,
                       text: widget.snap["text"],
                       color: Colors.black,
+                      fontSize: 14,
                       maxLines: 20,
                       softWrap: true),
                 ),

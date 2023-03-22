@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StorageMethods {
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -15,6 +16,7 @@ class StorageMethods {
     // create subfolders in storage
     Reference ref =
     _storage.ref().child(childName).child(_auth.currentUser!.uid);
+
 
     // generate unique id for post
     if (isPost) {

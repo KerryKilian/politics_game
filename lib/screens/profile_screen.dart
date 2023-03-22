@@ -42,6 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   int followers = 0;
   String userPhoto = "";
   Uint8List? _image;
+  String? partyPhotoUrl;
 
   @override
   void initState() {
@@ -50,11 +51,16 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   void selectImage() async {
+    // var partySnap = await FirebaseFirestore.instance.collection("parties").doc("4f9c54f0-c7ef-11ed-a5b4-b3091e38823e").get();
+    // print(partySnap.data());
     Uint8List im = await pickImage(ImageSource.gallery);
+
+
     // upload image to storage
     String photoUrl = await StorageMethods()
         .uploadImageToStorage("profilePics", im, false);
-    FirestoreMethods().updateProfile("photoUrl", photoUrl, widget.uid, true);
+
+    await FirestoreMethods().updateProfile("photoUrl", photoUrl, widget.uid, true);
     var userSnap = await FirebaseFirestore.instance
         .collection("users")
         .doc(widget.uid)
@@ -79,6 +85,9 @@ class _ProfileScreenState extends State<ProfileScreen>
       followers = userSnap.data()!["followers"].length;
       following = userSnap.data()!["following"].length;
       userPhoto = userData["photoUrl"];
+
+      var partySnap = await FirebaseFirestore.instance.collection("parties").doc(userData["partyId"]).get();
+      partyPhotoUrl = partySnap.data()!["photoUrl"];
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
@@ -168,11 +177,17 @@ class _ProfileScreenState extends State<ProfileScreen>
                               ),
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
-                                child: Image.network(
-                                  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Sozialdemokratische_Partei_Deutschlands%2C_Logo_um_2000.svg/1000px-Sozialdemokratische_Partei_Deutschlands%2C_Logo_um_2000.svg.png",
+                                child: partyPhotoUrl != null ?
+                                Image.network(
+                                  partyPhotoUrl!,
                                   height: 90.0,
                                   width: 90.0,
-                                ),
+                                  fit: BoxFit.cover,
+                                ) : Image.asset(
+                                  "assets/images/grau_kreuz.png",
+                                height: 90.0,
+                                  width: 90.0,
+                                fit: BoxFit.cover,)
                               )
                             ],
                           ),
