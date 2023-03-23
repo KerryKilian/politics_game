@@ -7,6 +7,7 @@ import 'package:politics_game/resources/firestore_methods.dart';
 import 'package:politics_game/resources/storage_methods.dart';
 import 'package:politics_game/screens/profile/description_tab.dart';
 import 'package:politics_game/screens/profile/demonstrations_tab.dart';
+import 'package:politics_game/screens/profile/messages_tab.dart';
 import 'package:politics_game/screens/profile/questions_tab.dart';
 import 'package:politics_game/screens/start/start_screen.dart';
 import 'package:politics_game/utils/colors.dart';
@@ -85,7 +86,6 @@ class _ProfileScreenState extends State<ProfileScreen>
       followers = userSnap.data()!["followers"].length;
       following = userSnap.data()!["following"].length;
       userPhoto = userData["photoUrl"];
-
       var partySnap = await FirebaseFirestore.instance.collection("parties").doc(userData["partyId"]).get();
       partyPhotoUrl = partySnap.data()!["photoUrl"];
     } catch (e) {
@@ -259,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   snap: userData,
                                   party: false,
                                 ),
-                                CustomText(text: "text"),
+                                MessagesTab(id: userData["uid"], user: true,),
                                 DemonstrationsTab(
                                   userData: userData,
                                 ),

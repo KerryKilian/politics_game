@@ -3,6 +3,7 @@ import 'package:politics_game/objects/constants.dart';
 import 'package:politics_game/resources/auth_methods.dart';
 import 'package:politics_game/screens/profile/demonstrations_tab.dart';
 import 'package:politics_game/screens/profile/description_tab.dart';
+import 'package:politics_game/screens/profile/messages_tab.dart';
 import 'package:politics_game/screens/profile/questions_tab.dart';
 import 'package:politics_game/screens/start/start_screen.dart';
 import 'package:politics_game/utils/colors.dart';
@@ -315,7 +316,7 @@ class _PartyProfileScreenState extends State<PartyProfileScreen>
                                   snap: widget.snap,
                                   party: true,
                                 ),
-                                CustomText(text: "text"),
+                                MessagesTab(id: widget.snap["partyId"], user: false),
                                 DemonstrationsTab(
                                   userData: widget.snap,
                                 ),
