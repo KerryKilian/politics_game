@@ -146,4 +146,10 @@ class FirestoreMethods {
     await updateProfile("partyId", partyId, uid, true);
 
   }
+  
+  Future<void> setPoliticalAnswers(String uid, List<int> politicalAnswers) async {
+    await _firestore.collection("users").doc(uid).update({
+      "politicalAnswers": politicalAnswers
+    });
+  }
 }

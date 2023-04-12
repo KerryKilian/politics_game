@@ -11,6 +11,7 @@ class CustomText extends StatelessWidget {
   final int maxLines;
   final TextOverflow overflow;
   final bool softWrap;
+  final backgroundColor;
 
   const CustomText(
       {Key? key,
@@ -23,6 +24,7 @@ class CustomText extends StatelessWidget {
       this.maxLines = 10,
         this.overflow = TextOverflow.clip,
         this.softWrap = true,
+        this.backgroundColor,
       })
       : super(key: key);
 
@@ -30,20 +32,21 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
 
-      this.text,
-      softWrap: this.softWrap,
+      text,
+      softWrap: softWrap,
       // overflow: this.overflow,
-      maxLines: this.maxLines,
-      textAlign: this.textAlign,
+      maxLines: maxLines,
+      textAlign: textAlign,
       style: TextStyle(
+        backgroundColor: backgroundColor,
         fontWeight: fontWeight,
-          color: this.color,
-          fontSize: this.title && this.fontSize == null
+          color: color,
+          fontSize: title && fontSize == null
               ? 24
-              : this.title == false && this.fontSize != null
-                  ? this.fontSize
-                  : this.title == true && this.fontSize != null
-                      ? this.fontSize
+              : title == false && fontSize != null
+                  ? fontSize
+                  : title == true && fontSize != null
+                      ? fontSize
                       : 16),
     );
   }

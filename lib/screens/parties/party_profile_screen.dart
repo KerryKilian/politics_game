@@ -31,7 +31,7 @@ class _PartyProfileScreenState extends State<PartyProfileScreen>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
   late final TabController _tabController =
-      TabController(length: 4, vsync: this);
+      TabController(length: 2, vsync: this);
   String politicalOrientationOutput = "Mittig";
   String politicalExtremismOutput = "Gemäßigt";
   Color textColor = primaryColor;
@@ -299,10 +299,10 @@ class _PartyProfileScreenState extends State<PartyProfileScreen>
                           Tab(
                             child: Icon(Icons.question_answer),
                           ),
-                          Tab(
-                            child: Icon(Icons.flash_on),
-                          ),
-                          Tab(child: Icon(Icons.question_mark)),
+                          // Tab(
+                          //   child: Icon(Icons.flash_on),
+                          // ),
+                          // Tab(child: Icon(Icons.question_mark)),
                         ],
                       ),
                       Expanded(
@@ -317,10 +317,10 @@ class _PartyProfileScreenState extends State<PartyProfileScreen>
                                   party: true,
                                 ),
                                 MessagesTab(id: widget.snap["partyId"], user: false),
-                                DemonstrationsTab(
-                                  userData: widget.snap,
-                                ),
-                                QuestionsTab(),
+                                // DemonstrationsTab(
+                                //   userData: widget.snap,
+                                // ),
+                                // QuestionsTab(userAnswers: ,),
                               ],
                             ),
                           ),

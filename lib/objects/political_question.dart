@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 class PoliticalQuestion {
   final String question;
   late int answer;
-  final List<double> politicalPoints; // 3 Elemente mit Punkten: -5: links; 0: mitte; +5: rechts
+  final List<double> capitalistPoints; // 3 Elemente mit Punkten: -5: links; 0: mitte; +5: rechts
+  final List<double> conservativePoints;
   final List<double> extremistPoints; // wie extremistisch ist jemand eingestellt?
 
-  PoliticalQuestion({required this.question, required this.politicalPoints, required this.extremistPoints});
+  PoliticalQuestion({required this.question, required this.capitalistPoints, required this.conservativePoints,required this.extremistPoints});
 
   /**
    * returns a list of two elements:
@@ -15,7 +16,7 @@ class PoliticalQuestion {
    */
   List<double> setAnswer(int answer) {
     this.answer = answer;
-    return [this.politicalPoints[answer], this.extremistPoints[answer]];
+    return [this.capitalistPoints[answer], this.conservativePoints[answer], this.extremistPoints[answer]];
   }
 
   String get title {

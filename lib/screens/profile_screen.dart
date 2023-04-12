@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
   late final TabController _tabController =
-      TabController(length: 4, vsync: this);
+      TabController(length: 3, vsync: this);
   var userData = {};
   String politicalOrientationOutput = "Mittig";
   String politicalExtremismOutput = "Gemäßigt";
@@ -44,6 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   String userPhoto = "";
   Uint8List? _image;
   String? partyPhotoUrl;
+  List userAnswers = [];
 
   @override
   void initState() {
@@ -85,9 +86,11 @@ class _ProfileScreenState extends State<ProfileScreen>
       userData = userSnap.data()!;
       followers = userSnap.data()!["followers"].length;
       following = userSnap.data()!["following"].length;
-      userPhoto = userData["photoUrl"];
+      userPhoto = await userData["photoUrl"];
+      userAnswers = await userData["politicalAnswers"];
       var partySnap = await FirebaseFirestore.instance.collection("parties").doc(userData["partyId"]).get();
       partyPhotoUrl = partySnap.data()!["photoUrl"];
+
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
@@ -123,6 +126,8 @@ class _ProfileScreenState extends State<ProfileScreen>
       isLoading = false;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -242,9 +247,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                           Tab(
                             child: Icon(Icons.question_answer),
                           ),
-                          Tab(
-                            child: Icon(Icons.flash_on),
-                          ),
+                          // Tab(
+                          //   child: Icon(Icons.flash_on),
+                          // ),
                           Tab(child: Icon(Icons.question_mark)),
                         ],
                       ),
@@ -260,10 +265,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   party: false,
                                 ),
                                 MessagesTab(id: userData["uid"], user: true,),
-                                DemonstrationsTab(
-                                  userData: userData,
-                                ),
-                                QuestionsTab(),
+                                // DemonstrationsTab(
+                                //   userData: userData,
+                                // ),
+                                QuestionsTab(id: userData["uid"], userAnswers: userAnswers,),
                               ],
                             ),
                           ),
